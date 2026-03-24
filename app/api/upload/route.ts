@@ -6,6 +6,10 @@ import { cookies } from 'next/headers';
 export async function POST(request: Request): Promise<NextResponse> {
   const body = (await request.json()) as HandleUploadBody;
 
+  if (!process.env.BLOB_READ_WRITE_TOKEN) {
+    return NextResponse.json({ error: 'BLOB_READ_WRITE_TOKEN is not configured in Vercel' }, { status: 500 });
+  }
+
   try {
     const jsonResponse = await handleUpload({
       body,

@@ -26,7 +26,10 @@ export default function UploadPage() {
         if (data.length > 0) setLocationId(data[0].id);
         setLoading(false);
       })
-      .catch(() => setLoading(false));
+      .catch((err) => {
+        console.error('Failed to fetch locations:', err);
+        setLoading(false);
+      });
   }, []);
 
   const handleUpload = async (e: React.FormEvent) => {
