@@ -5,8 +5,8 @@ export async function POST(request: Request) {
   try {
     const { email, password } = await request.json();
 
-    const validEmail = process.env.ADMIN_EMAIL || 'admin@company.com';
-    const validPassword = process.env.ADMIN_PASSWORD || 'admin';
+    const validEmail = process.env.ADMIN_EMAIL || 'seu.email@grimaldi.com.br';
+    const validPassword = process.env.ADMIN_PASSWORD || 'sua_senha_aqui';
 
     if (email === validEmail && password === validPassword) {
       // Create JWT
