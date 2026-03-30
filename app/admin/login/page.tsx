@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 
 export default function LoginPage() {
-  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -20,7 +19,7 @@ export default function LoginPage() {
       const res = await fetch('/api/admin/auth', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ password }),
       });
 
       if (res.ok) {
@@ -28,7 +27,7 @@ export default function LoginPage() {
         router.push('/admin/dashboard');
       } else {
         const data = await res.json();
-        setError(data.error || 'Credenciais inválidas');
+        setError(data.error || 'Senha incorreta');
       }
     } catch (err) {
       console.error('Login error:', err);
@@ -45,7 +44,7 @@ export default function LoginPage() {
           <Image src="/GrimaldiLogo.jpg" alt="Grimaldi Logo" width={160} height={64} className="h-16 w-auto rounded" />
         </div>
         <h1 className="text-2xl font-bold text-slate-900 mb-2 text-center">Acesso - Admin RH</h1>
-        <p className="text-slate-500 mb-8 text-center">Faça login para gerenciar os PDFs de itinerários</p>
+        <p className="text-slate-500 mb-8 text-center">Digite a senha de acesso para gerenciar os itinerários</p>
 
         <form onSubmit={handleLogin} className="space-y-6">
           {error && (
@@ -53,32 +52,19 @@ export default function LoginPage() {
               {error}
             </div>
           )}
-          
-          <div>
-            <label className="block text-sm font-medium text-slate-700 mb-2">
-              E-mail
-            </label>
-            <input
-              type="email"
-              value={email}
-              onChange={e => setEmail(e.target.value)}
-              className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all text-slate-900 font-semibold shadow-sm"
-              placeholder="seu.email@grimaldi.com.br"
-              required
-            />
-          </div>
 
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-2">
-              Senha
+              Senha de Acesso
             </label>
             <input
               type="password"
               value={password}
               onChange={e => setPassword(e.target.value)}
-              className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
+              className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all text-slate-900 font-semibold shadow-sm"
               placeholder="••••••••"
               required
+              autoFocus
             />
           </div>
 
