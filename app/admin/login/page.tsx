@@ -1,14 +1,12 @@
 "use client";
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 
 export default function LoginPage() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -23,8 +21,10 @@ export default function LoginPage() {
       });
 
       if (res.ok) {
-        router.refresh();
-        router.push('/admin/dashboard');
+        // Full page navigation ensures the new auth cookie is sent
+        // on the very first request — avoids Next.js router cache issues
+        window.location.href = '/admin/dashboard';
+        return; // prevent finally from flipping loading state
       } else {
         const data = await res.json();
         setError(data.error || 'Senha incorreta');
